@@ -26,8 +26,11 @@ Constructor
 The constructor initializes the contract by setting the owner to the address that deploys the contract and initializing the totalSupply to 0.
 
 constructor() {
+
     owner = msg.sender;
+    
     totalSupply = 0;
+    
 }
 
 
@@ -37,8 +40,11 @@ Mints new tokens and assigns them to a specified address. Only the owner can cal
 
 
 function mintToken(address addr, uint val) public {
+
     require(msg.sender == owner, "Only owner can mint tokens");
+    
     totalSupply += val;
+    
     balances[addr] += val;
 }
 
@@ -48,11 +54,17 @@ Burns tokens from a specified address if the address has sufficient balance.
 
 
 function burnToken(address addr, uint val) public {
+
     if (balances[addr] <= val) {
+    
         revert("Transaction not possible!! Amount to be burned is greater than or equal to total amount");
+        
     } else {
+    
         totalSupply -= val;
+        
         balances[addr] -= val;
+        
     }
 }
 
@@ -62,8 +74,11 @@ Returns the total supply of tokens. Uses assert to ensure the total supply is ne
 
 
 function getBalance() public view returns (uint256) {
+
     assert(totalSupply >= 0);
+    
     return totalSupply;
+    
 }
 
 Usage
