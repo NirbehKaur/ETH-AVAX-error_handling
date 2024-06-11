@@ -1,40 +1,38 @@
 /*For this project, write a smart contract that implements the require(), assert() and revert() statements.*/
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ErrorHandling {
+contract Calculator {
 
-    uint256 public totalSupply;
-    address public owner;
-
-    constructor() {
-        owner = msg.sender;
-        totalSupply = 0;
+    function multiply(uint a, uint b) public pure returns (uint) {
+        require((a!=0 && b != 0), "Multiplication of a number by 0 yields 0!!");
+        uint product = a * b;
+        return product;
     }
 
-   mapping(address=> uint) public balances;
-
-
-   function mintToken(address addr, uint val) public {
-    require(msg.sender==owner,"Only owner can mint tokens");
-    totalSupply += val;
-    balances[addr] += val;
-   }
-
-
-   function burnToken(address addr,uint val) public {
-    if(balances[addr]<= val){
-        revert("Transaction not possible!! Amount to be burn is greater than or equal to total amount");
-    }else{
-        totalSupply-=val;
-        balances[addr]-=val;
-    }
-   }
-
-   function getBalance() public view returns (uint256) {
-       assert(totalSupply>=0);
-        return totalSupply;
+    function divide(uint a, uint b) public pure returns (uint) {
+        require(b != 0, "Division by zero is not allowed!!");
+        uint quotient = a / b;
+        return quotient;
     }
 
+    function add(uint a, uint b) public pure returns (uint) {
+        uint sum = a + b;
+        return sum;
+    }
+
+    function subtract(uint a, uint b) public pure returns (uint) {
+        if(a>b){
+            uint sub1= a-b;
+            return sub1;
+        }else{
+            revert("Negative answer obtained!!");
+        }
+    }
+
+    function isEven(uint number) public pure returns (bool) {
+        assert(number >= 0);
+        bool isEvenNumber = (number % 2) == 0;
+        return isEvenNumber;
+    }
 }
